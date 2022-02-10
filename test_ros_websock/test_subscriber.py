@@ -2,7 +2,9 @@ import rclpy
 from rclpy.node import Node
 
 from std_msgs.msg import String
+import serial
 
+ser = serial.Serial ("/dev/ttyACM0", 115200) #Open port with baud rate
 
 class TestSubscriber(Node):
 
@@ -17,7 +19,8 @@ class TestSubscriber(Node):
 
     def listener_callback(self, msg):
         self.get_logger().info('Received from websocket bridge: "%s"' % msg.data)
-        
+        # ser.write(bytes('msg.data',encoding='ascii'))
+        ser.write(bytes(msg.data,encoding='ascii'))
 
 def main(args=None):
     rclpy.init(args=args)
